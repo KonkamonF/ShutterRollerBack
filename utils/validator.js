@@ -25,6 +25,11 @@ const userLogin = joi.object({
   password: joi.string().required(),
 });
 
+ exports.createQuestion = joi.object({
+  title : joi.string().required(),
+  detail : joi.string().required()
+})
+
 const validateSchema = (schema) => (req, res, next) => {
   const { value, error } = schema.validate(req.body);
   if (error) {
