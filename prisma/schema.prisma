@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  firstName     String          @map("first_name")
+  lastName      String          @map("last_name")
+  email         String          @unique
+  phone         String
+  address       String
+  lineId        String?
+  password      String
+  userImg       String?
+  role          Role            @default(USER)
+  productRecord ProductRecord[]
+  Question      Question[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model ProductRecord {
+  id      Int         @id @default(autoincrement())
+  name    String
+  color   String
+  high    String
+  weight  String
+  type    ProductType @default(MANUAL)
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  Payment Payment[]
+}
+
+enum ProductType {
+  MANUAL
+  AUTOMATIC
+}
+
+model Question {
+  id            Int            @id @default(autoincrement())
+  statusPayment StatusQuestion @default(PUBLIC)
+  name          String
+  text          String
+  questionImg   String?
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int
+}
+
+enum StatusQuestion {
+  PUBLIC
+  PRIVATE
+}
+
+model Payment {
+  id            Int           @id @default(autoincrement())
+  statusPayment StatusPayment @default(PENDING)
+  paymentImg    String
+  productRecord ProductRecord @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     Int
+}
+
+enum StatusPayment {
+  PENDING
+  PAID
+}
