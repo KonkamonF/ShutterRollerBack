@@ -79,6 +79,29 @@ exports.register = async (req, res, next) => {
   }
 };
 
+exports.getUser = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    const getUser = await prisma.user.findFirst({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        address: true,
+        lineId: true,
+      },
+    });
+    res.json({ getUser });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.findUser = async (req, res, next) => {
   try {
     const allUser = await prisma.user.findMany();

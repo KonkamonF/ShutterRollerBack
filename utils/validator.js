@@ -1,5 +1,6 @@
 const joi = require("joi");
 const errorChecker = require("./errorChecker");
+const { question } = require("../config/prismaConfig");
 
 const userRegister = joi.object({
   email: joi.string().email({ tlds: false }).required().messages({
@@ -25,10 +26,11 @@ const userLogin = joi.object({
   password: joi.string().required(),
 });
 
- exports.createQuestion = joi.object({
-  title : joi.string().required(),
-  detail : joi.string().required()
-})
+//  exports.createQuestion = joi.object({
+//   title : joi.string().required(),
+//   detail : joi.string().required(),
+//   questionImg: joi.string()
+// })
 
 const validateSchema = (schema) => (req, res, next) => {
   const { value, error } = schema.validate(req.body);

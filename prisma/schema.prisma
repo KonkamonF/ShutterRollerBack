@@ -36,13 +36,19 @@ enum Role {
 model ProductRecord {
   id      Int         @id @default(autoincrement())
   name    String
-  color   String
+  color   Color       @default(GRAY)
   high    String
   weight  String
   type    ProductType @default(MANUAL)
   user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  Int
   Payment Payment[]
+}
+
+enum Color {
+  GRAY
+  BLUE
+  CREAM
 }
 
 enum ProductType {
