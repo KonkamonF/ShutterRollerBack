@@ -39,10 +39,13 @@ model ProductRecord {
   color   Color       @default(GRAY)
   high    String
   weight  String
+  price   Decimal?    @db.Decimal(10, 2)
   type    ProductType @default(MANUAL)
   user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  Int
   Payment Payment[]
+
+  @@map("product_record")
 }
 
 enum Color {
@@ -57,13 +60,14 @@ enum ProductType {
 }
 
 model Question {
-  id            Int            @id @default(autoincrement())
-  statusPayment StatusQuestion @default(PUBLIC)
-  name          String
-  text          String
-  questionImg   String?
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        Int
+  id             Int            @id @default(autoincrement())
+  statusQuestion StatusQuestion @default(PUBLIC)
+  name           String
+  text           String
+  answer         String?
+  questionImg    String?
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
 }
 
 enum StatusQuestion {

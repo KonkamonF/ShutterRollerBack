@@ -20,7 +20,6 @@ exports.login = async (req, res, next) => {
     }
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     res.json({ msg: "login", token, role: user.role, user });
-    console.log(user);
   } catch (err) {
     next(err);
   }
@@ -57,7 +56,6 @@ exports.register = async (req, res, next) => {
         email,
       },
     });
-    console.log(checkEmail);
     if (checkEmail) {
       return errorChecker(400, "EMAIL IS USED");
     }
@@ -94,6 +92,7 @@ exports.getUser = async (req, res, next) => {
         phone: true,
         address: true,
         lineId: true,
+        role: true,
       },
     });
     res.json({ getUser });
@@ -106,6 +105,38 @@ exports.findUser = async (req, res, next) => {
   try {
     const allUser = await prisma.user.findMany();
     res.json({ allUser });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.editProfile = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {
+      email,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+      phone,
+      address,
+    } = req.body;
+    const updateProfile = await prisma.user.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        address: address,
+      },
+    });
+    res.json({ updateProfile });
   } catch (err) {
     next(err);
   }
