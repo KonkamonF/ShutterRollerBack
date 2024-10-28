@@ -30,7 +30,8 @@ exports.imageQuestion = async (req, res, next) => {
     res.json({ msg: "upload image", data });
   } catch (err) {
     next(err);
-  } finally {
+  } 
+  finally {
     if (req.file) {
       fs.unlink(req.file.path, (err) => {
         if (err) {

@@ -38,6 +38,30 @@ exports.findRecord = async (req, res, next) => {
   }
 };
 
+exports.findRecordShow = async (req, res, next) => {
+  const {userId}=req.body
+  console.log("userId bk",userId);
+  try {
+    if(userId){
+      const allProduct = await prisma.productRecord.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          user: true,
+          Payment: true,
+        },
+      });
+      res.json({ allProduct });
+      return
+    }
+    res.json({ allProduct:[] });
+   
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.editedRecord = async (req, res, next) => {
   try {
     const { recordId } = req.params;

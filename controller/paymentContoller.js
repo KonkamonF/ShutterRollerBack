@@ -2,6 +2,7 @@ const errorChecker = require("../utils/errorChecker");
 const prisma = require("../config/prismaConfig");
 const cloudinary = require("../config/cloudinary");
 const path = require("path");
+const fs = require("fs");
 
 exports.createPayment = async (req, res, next) => {
   try {
@@ -24,6 +25,16 @@ exports.createPayment = async (req, res, next) => {
     res.json({ msg: "PAID", data });
   } catch (err) {
     next(err);
+  } finally {
+    if (req.file) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.log("upload image Error on deleted picture");
+        } else {
+          console.log("deleted Successfully");
+        }
+      });
+    }
   }
 };
 
