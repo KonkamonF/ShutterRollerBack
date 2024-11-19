@@ -115,7 +115,7 @@ exports.editProfile = async (req, res, next) => {
     const { id } = req.params;
     const {
       email,
-      password,
+
       firstName,
       lastName,
       phone,
@@ -127,7 +127,6 @@ exports.editProfile = async (req, res, next) => {
       },
       data: {
         email: email,
-        password: password,
         firstName: firstName,
         lastName: lastName,
         phone: phone,

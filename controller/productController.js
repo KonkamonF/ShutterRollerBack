@@ -66,6 +66,7 @@ exports.editedRecord = async (req, res, next) => {
   try {
     const { recordId } = req.params;
     const { name, color, high, weight, type } = req.body;
+    console.log(recordId,"================");
     const recordEdited = await prisma.productRecord.update({
       where: {
         id: +recordId,
