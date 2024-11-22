@@ -26,6 +26,8 @@ model User {
   role          Role            @default(USER)
   productRecord ProductRecord[]
   Question      Question[]
+
+  @@map("user")
 }
 
 enum Role {
@@ -68,6 +70,7 @@ model Question {
   questionImg    String?
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         Int
+  @@map("question")
 }
 
 enum StatusQuestion {
@@ -81,6 +84,7 @@ model Payment {
   paymentImg    String
   productRecord ProductRecord @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId     Int
+  @@map("payment")
 }
 
 enum StatusPayment {
